@@ -1,0 +1,109 @@
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+
+import io
+import imageio
+from IPython.display import Image, display
+from ipywidgets import widgets, Layout, HBox
+
+import pandas as pd
+import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
+
+import os
+import seaborn as sns
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow.keras as kr
+import cv2
+# from matplotlib.image import imread
+from sklearn.model_selection import train_test_split
+# Technically not necessary in newest versions of jupyter
+%matplotlib inline
+
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+
+import io
+import imageio
+from IPython.display import Image, display
+from ipywidgets import widgets, Layout, HBox
+
+import pandas as pd
+import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
+
+import os
+import seaborn as sns
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow.keras as kr
+import cv2
+# from matplotlib.image import imread
+from sklearn.model_selection import train_test_split
+# Technically not necessary in newest versions of jupyter
+%matplotlib inline
+
+
+
+import numpy as np
+import cv2
+
+w, h = 22, 22
+n=500
+
+dataset = np.empty(shape=[n,w,h,1])   
+
+for i in range (0,n):
+  data = np.zeros((h, w, 1), dtype=np.uint8)
+
+  xx=(np.sin(np.deg2rad(30*i))+1)*255/2
+  data[:, :] = [xx] 
+  dataset[i,:,:,:]= data
+dataset.shape
+
+
+test_size=0.2
+dataset_train, dataset_test = train_test_split(dataset, test_size=test_size, shuffle=False)
+print('shape  train:  ' , dataset_train.shape)
+print('shape  test:  ' , dataset_test.shape)
+
+
+N = len(dataset)
+
+w = 3
+#width_window
+RGB_channel=1
+loaded_images_dimention=22
+
+
+# takes 4D dataset (numbers of sequesnce pictures), converts to 
+def frames_vs_labels(dataset ,w):
+  X = [] 
+  Y = [] #labels
+  for i in range(0,len(dataset)-w):
+    x = dataset[i:i+w,:,:,:]
+    y = dataset[i+1:i+w+1,:,:,:]
+    X.append(x)
+    Y.append(y)
+
+  return np.array(X) , np.array(Y)
+  
+  
+X_train, Y_train = frames_vs_labels(dataset_train, w)
+X_test, Y_test = frames_vs_labels(dataset_test, w)
+
+print("Training Dataset vs. Labels Shapes: " + str(X_train.shape) + ", " + str(Y_train.shape))
+print("Validation Dataset vs. Labels Shapes: " + str(X_test.shape) + ", " + str(Y_test.shape))
+
+
